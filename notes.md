@@ -57,5 +57,50 @@ LINE 1: ...tent, important) values ('only valid data can be saved', 1); ^
 defaultdb=> insert into notes (content, important, value) values ('only valid data can be saved', true, 10);
 ERROR: column "value" of relation "notes" does not exist
 LINE 1: insert into notes (content, important, value) values ('only ...
+```
+
+13.2 creating the _blogs_ table and initializing it:
+
+```shell
+defaultdb=> CREATE TABLE blogs (
+    id SERIAL PRIMARY KEY,
+    author text,
+    url text NOT NULL,
+    title text NOT NULL,
+    likes integer DEFAULT 0
+);
+CREATE TABLE
+defaultdb=> \d
+              List of relations
+ Schema |     Name     |   Type   |  Owner   
+--------+--------------+----------+----------
+ public | blogs        | table    | avnadmin
+ public | blogs_id_seq | sequence | avnadmin
+ public | notes        | table    | avnadmin
+ public | notes_id_seq | sequence | avnadmin
+(4 rows)
+
+defaultdb=> insert into blogs (author, url, title, likes) values ('Matti Meikäläinen', 'https://www.iltalehti.fi', 'Blogit testissä', 5);
+insert into blogs (author, url, title) values ('Maija Mehiläinen', 'https://www.iltasanomat.fi', 'Testit blogissa');
+INSERT 0 1
+INSERT 0 1
+defaultdb=> \d blogs
+                            Table "public.blogs"
+ Column |  Type   | Collation | Nullable |              Default              
+--------+---------+-----------+----------+-----------------------------------
+ id     | integer |           | not null | nextval('blogs_id_seq'::regclass)
+ author | text    |           |          | 
+ url    | text    |           | not null | 
+ title  | text    |           | not null | 
+ likes  | integer |           |          | 0
+Indexes:
+    "blogs_pkey" PRIMARY KEY, btree (id)
+
+defaultdb=> select * from blogs;
+ id |      author       |            url             |      title      | likes 
+----+-------------------+----------------------------+-----------------+-------
+  1 | Matti Meikäläinen | https://www.iltalehti.fi   | Blogit testissä |     5
+  2 | Maija Mehiläinen  | https://www.iltasanomat.fi | Testit blogissa |     0
+(2 rows)
 
 ```
