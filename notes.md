@@ -110,28 +110,4 @@ drop table notes;
 
 postgres=# \d
 Did not find any relations.
-
-Note.sync()
-# Executing (default): CREATE TABLE IF NOT EXISTS "notes" ("id" SERIAL , "content" TEXT NOT NULL, "important" BOOLEAN, "date" TIMESTAMP WITH TIME ZONE, PRIMARY KEY ("id"));
-
-app.get('/api/notes/:id', async (req, res) => {
-  const note = await Note.findByPk(req.params.id)
-  if (note) {
-    res.json(note)
-  } else {
-    res.status(404).end()
-  }
-})
-# Executing (default): SELECT "id", "content", "important", "date" FROM "notes" AS "note" WHERE "note". "id" = '1';
-
-app.put('/api/notes/:id', async (req, res) => {
-  const note = await Note.findByPk(req.params.id)
-  if (note) {
-    note.important = req.body.important
-    await note.save()
-    res.json(note)
-  } else {
-    res.status(404).end()
-  }
-})
 ```
