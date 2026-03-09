@@ -1,7 +1,9 @@
-POST http://localhost:3001/api/notes
+POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-  "content": "This is a test note",
-  "important": true
+  "author": "John Doe",
+  "url": "https://example.com",
+  "title": "Test Blog Post",
+  "likes": 0
 }

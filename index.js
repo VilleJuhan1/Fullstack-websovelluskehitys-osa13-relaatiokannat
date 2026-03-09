@@ -14,41 +14,96 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   },
 });
 
-class Note extends Model {}
-Note.init({
+/*
+ Column |  Type   | Collation | Nullable |              Default              
+--------+---------+-----------+----------+-----------------------------------
+ id     | integer |           | not null | nextval('blogs_id_seq'::regclass)
+ author | text    |           |          | 
+ url    | text    |           | not null | 
+ title  | text    |           | not null | 
+ likes  | integer |           |          | 0
+*/
+
+class Blog extends Model {}
+Blog.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  content: {
+  author: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  url: {
     type: DataTypes.TEXT,
     allowNull: false
   },
-  important: {
-    type: DataTypes.BOOLEAN
+  title: {
+    type: DataTypes.TEXT,
+    allowNull: false
   },
-  date: {
-    type: DataTypes.DATE
+  likes: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   }
-}, {
+  },
+{
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'note'
+  modelName: 'blog'
 })
 
-app.get('/api/notes', async (req, res) => {
-  const notes = await Note.findAll()  
-  res.json(notes)
+// Create the table using the model if it doesn't exist already
+Blog.sync()
+
+app.get('/api/blogs', async (req, res) => {
+  const blogs = await Blog.findAll()  
+  console.log(JSON.stringify(blogs, null, 2))
+  res.json(blogs)
 })
 
-app.post('/api/notes', async (req, res) => {
+app.get('/api/blogs/:id', async (req, res) => {
+  const blog = await Blog.findByPk(req.params.id)
+  if (blog) {
+    console.log('Received blog:', blog.toJSON())
+    res.json(blog)
+  } else {
+    res.status(404).end()
+  }
+})
+
+app.post('/api/blogs', async (req, res) => {
   try {
-    const note = await Note.create({...req.body, date: new Date()})
-    return res.json(note)
+    const blog = await Blog.create(req.body)
+    return res.json(blog)
   } catch(error) {
     return res.status(400).json({ error })
+  }
+})
+
+app.put('/api/blogs/:id', async (req, res) => {
+  const blog = await Blog.findByPk(req.params.id)
+  if (blog) {
+    blog.author = req.body.author
+    blog.url = req.body.url
+    blog.title = req.body.title
+    blog.likes = req.body.likes
+    await blog.save()
+    res.json(blog)
+  } else {
+    res.status(404).end()
+  }
+})
+
+app.delete('/api/blogs/:id', async (req, res) => {
+  const blog = await Blog.findByPk(req.params.id)
+  if (blog) {
+    await blog.destroy()
+    res.status(204).end()
+  } else {
+    res.status(404).end()
   }
 })
 

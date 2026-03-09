@@ -1,4 +1,4 @@
-Using psql via docker
+## Using psql via docker
 
 ```shell
 docker run -it --rm postgres psql "postgres://userhere:passwordhere@hostnamehere.aivencloud.com:10789/defaultdb?sslmode=require"
@@ -59,7 +59,7 @@ ERROR: column "value" of relation "notes" does not exist
 LINE 1: insert into notes (content, important, value) values ('only ...
 ```
 
-13.2 creating the _blogs_ table and initializing it:
+## 13.2 creating the _blogs_ table and initializing it:
 
 ```shell
 defaultdb=> CREATE TABLE blogs (
@@ -103,4 +103,35 @@ defaultdb=> select * from blogs;
   2 | Maija Mehiläinen  | https://www.iltasanomat.fi | Testit blogissa |     0
 (2 rows)
 
+```
+
+```shell
+drop table notes;
+
+postgres=# \d
+Did not find any relations.
+
+Note.sync()
+# Executing (default): CREATE TABLE IF NOT EXISTS "notes" ("id" SERIAL , "content" TEXT NOT NULL, "important" BOOLEAN, "date" TIMESTAMP WITH TIME ZONE, PRIMARY KEY ("id"));
+
+app.get('/api/notes/:id', async (req, res) => {
+  const note = await Note.findByPk(req.params.id)
+  if (note) {
+    res.json(note)
+  } else {
+    res.status(404).end()
+  }
+})
+# Executing (default): SELECT "id", "content", "important", "date" FROM "notes" AS "note" WHERE "note". "id" = '1';
+
+app.put('/api/notes/:id', async (req, res) => {
+  const note = await Note.findByPk(req.params.id)
+  if (note) {
+    note.important = req.body.important
+    await note.save()
+    res.json(note)
+  } else {
+    res.status(404).end()
+  }
+})
 ```
