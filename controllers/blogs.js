@@ -29,11 +29,12 @@ router.post('/', async (req, res) => {
   }
 })
 
+// Update the likes of a blog post
 router.put('/:id', blogFinder, async (req, res) => {
   console.log('Updating blog:', req.blog.toJSON())
-  req.blog.author = req.body.author
+  /* req.blog.author = req.body.author
   req.blog.url = req.body.url
-  req.blog.title = req.body.title
+  req.blog.title = req.body.title */
   req.blog.likes = req.body.likes
   await req.blog.save()
   res.json(req.blog)

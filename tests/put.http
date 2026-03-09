@@ -1,0 +1,9 @@
+PUT http://localhost:3001/api/blogs/1
+Content-Type: application/json
+
+{
+    "author": "Matti Meikäläinen",
+    "url": "https://www.iltalehti.fi",
+    "title": "Blogit testissä",
+    "likes": 7
+}
