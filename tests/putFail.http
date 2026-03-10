@@ -4,6 +4,5 @@ Content-Type: application/json
 {
     "author": "Matti Meikäläinen",
     "url": "https://www.iltalehti.fi",
-    "title": "Blogit testissä",
-    "likes": 42
+    "title": "Blogit testissä"
 }
