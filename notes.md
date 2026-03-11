@@ -111,3 +111,23 @@ drop table notes;
 postgres=# \d
 Did not find any relations.
 ```
+
+```shell
+defaultdb=> select * from users
+;
+ id |     username      |   name   |         created_at         |         updated_at         
+----+-------------------+----------+----------------------------+----------------------------
+  1 | Johndoe           | John Doe | 2026-03-11 15:38:25.124+00 | 2026-03-11 15:38:25.124+00
+  3 | johndoe@gmail.com | John Doe | 2026-03-11 15:47:00.508+00 | 2026-03-11 15:47:00.508+00
+(2 rows)
+
+defaultdb=> DELETE FROM users
+defaultdb-> WHERE id = 3;
+DELETE 1
+defaultdb=> select * from users
+;
+ id | username |   name   |         created_at         |         updated_at         
+----+----------+----------+----------------------------+----------------------------
+  1 | Johndoe  | John Doe | 2026-03-11 15:38:25.124+00 | 2026-03-11 15:38:25.124+00
+(1 row)
+```
