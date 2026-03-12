@@ -1,5 +1,7 @@
 const router = require('express').Router()
-const { Blog } = require('../models')
+const jwt = require('jsonwebtoken')
+const { SECRET } = require('../util/config')
+const { Blog, User } = require('../models')
 
 const blogFinder = async (req, res, next) => {
   try {
@@ -18,6 +20,20 @@ const blogFinder = async (req, res, next) => {
   }
 }
 
+const tokenExtractor = (req, res, next) => {
+  const authorization = req.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    try {
+      req.decodedToken = jwt.verify(authorization.substring(7), SECRET)
+    } catch{
+      return res.status(401).json({ error: 'token invalid' })
+    }
+  }  else {
+    return res.status(401).json({ error: 'token missing' })
+  }
+  next()
+}
+
 router.get('/', async (req, res, next) => {
   try {
     const blogs = await Blog.findAll()
@@ -32,7 +48,7 @@ router.get('/:id', blogFinder, async (req, res) => {
   console.log('Received blog:', req.blog.toJSON())
   res.json(req.blog)
 })
-
+/*
 router.post('/', async (req, res, next) => {
   try {
     if (req.body.likes !== undefined || req.body.likes === null || req.body.likes < 0) {
@@ -41,6 +57,21 @@ router.post('/', async (req, res, next) => {
       return next(error)
     }
     const blog = await Blog.create(req.body)
+    res.json(blog)
+  } catch (error) {
+    next(error)
+  }
+})
+*/
+router.post('/', tokenExtractor, async (req, res, next) => {
+  try {
+    if (req.body.likes !== undefined || req.body.likes === null || req.body.likes < 0) {
+      const error = new Error('Likes must be a non-negative number')
+      error.status = 400
+      return next(error)
+    }
+    const user = await User.findByPk(req.decodedToken.id)
+    const blog = await Blog.create({ ...req.body, user_id: user.id })
     res.json(blog)
   } catch (error) {
     next(error)
