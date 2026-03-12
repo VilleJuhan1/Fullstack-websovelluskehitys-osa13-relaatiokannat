@@ -1,0 +1,9 @@
+POST http://localhost:3001/api/blogs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hdHRpbWVpa2FsYWluZW5AaG90bWFpbC5jb20iLCJpZCI6NSwiaWF0IjoxNzczMzMyODQ0fQ.9-0rgcJsOPAREmAn2Ry5dUr8dcd_37xNwrE37EPkzqM
+Content-Type: application/json
+
+{
+  "author": "Ripulimies",
+  "url": "https://www.shittalk.net",
+  "title": "Shittalk"
+}

@@ -36,7 +36,12 @@ const tokenExtractor = (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    const blogs = await Blog.findAll()
+    const blogs = await Blog.findAll({
+      include: {
+        model: User,
+        attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+      }
+    })
     console.log(JSON.stringify(blogs, null, 2))
     res.json(blogs)
   } catch (error) {
@@ -99,8 +104,12 @@ router.put('/:id', blogFinder, async (req, res, next) => {
   }
 })
 
-router.delete('/:id', blogFinder, async (req, res, next) => {
+router.delete('/:id', blogFinder, tokenExtractor, async (req, res, next) => {
   try {
+    const user = await User.findByPk(req.decodedToken.id)
+    if (req.blog.user_id !== user.id) {
+      return res.status(403).json({ error: 'Forbidden: You can only delete your own blogs' })
+    }
     await req.blog.destroy()
     res.status(204).end()
   } catch (error) {

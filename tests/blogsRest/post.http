@@ -1,8 +1,0 @@
-POST http://localhost:3001/api/blogs
-Content-Type: application/json
-
-{
-  "author": "Kalle Kahveli",
-  "url": "https://www.magneettimedia.fi",
-  "title": "Huuruisia salaliittoja"
-}
