@@ -5,5 +5,5 @@ Content-Type: application/json
 {
   "author": "Fake John",
   "url": "https://www.fakenews.com",
-  "title": "Fake news"
+  "title": "Only truth"
 }

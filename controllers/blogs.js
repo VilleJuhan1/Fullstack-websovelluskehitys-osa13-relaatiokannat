@@ -39,11 +39,12 @@ router.get('/', async (req, res, next) => {
   const where = {}
 
   if (req.query.search) {
-    where.title = {
-      // Use case-insensitive search for the title with iLike instead of substring
-      [Op.iLike]: `%${req.query.search}%`
-    }
+    where[Op.or] = [
+      { title: { [Op.iLike]: `%${req.query.search}%` } },
+      { author: { [Op.iLike]: `%${req.query.search}%` } }
+    ]
   }
+  
   try {
     const blogs = await Blog.findAll({
       where,
