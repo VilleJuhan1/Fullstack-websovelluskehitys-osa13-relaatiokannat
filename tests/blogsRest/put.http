@@ -1,9 +1,6 @@
-PUT http://localhost:3001/api/blogs/1
+PUT http://localhost:3001/api/blogs/13
 Content-Type: application/json
 
 {
-    "author": "Kalle Kehveli",
-    "url": "https://www.magneettimedia.fi",
-    "title": "Huuruisia salaliittoja",
-    "likes": 67
+    "likes": 5
 }

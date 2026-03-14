@@ -38,22 +38,26 @@ const tokenExtractor = (req, res, next) => {
 router.get('/', async (req, res, next) => {
   const where = {}
 
+  // If a search query is provided, filter blogs by title or author (case-insensitive)
   if (req.query.search) {
     where[Op.or] = [
       { title: { [Op.iLike]: `%${req.query.search}%` } },
       { author: { [Op.iLike]: `%${req.query.search}%` } }
     ]
   }
-  
+
   try {
     const blogs = await Blog.findAll({
       where,
       include: {
         model: User,
         attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
-      }
+      },
+      order: [['likes', 'DESC']] // Sort blogs by likes in descending order
     })
     console.log(JSON.stringify(blogs, null, 2))
+    // Sort blogs by likes in descending order before sending the response (Use sequelize instead)
+    // res.json(blogs.sort((a, b) => b.likes - a.likes))
     res.json(blogs)
   } catch (error) {
     next(error)
