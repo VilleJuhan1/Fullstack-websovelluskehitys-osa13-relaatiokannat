@@ -19,8 +19,8 @@ app.use('/api/authors', authorsRouter)
 app.use('/api/reset', resetRouter)
 
 // Basic route to check if the server is running
-app.get('/', (res) => {
-  res.status(200).send('Hello World!')
+app.get('/', (req, res) => {
+  return res.status(200).send('Hello World!')
 })
 
 // Handle unknown endpoints
