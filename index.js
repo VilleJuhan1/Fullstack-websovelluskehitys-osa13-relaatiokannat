@@ -20,6 +20,7 @@ app.use('/api/reset', resetRouter)
 
 // Basic route to check if the server is running
 app.get('/', (req, res) => {
+  console.log('Received request to /')
   res.status(200).send('Hello World!')
 })
 

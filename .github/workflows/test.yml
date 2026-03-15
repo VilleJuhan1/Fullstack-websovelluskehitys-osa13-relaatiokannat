@@ -43,8 +43,11 @@ jobs:
           PORT: 3001
           SECRET: test_secret
           
-      - name: Wait for application to be ready
-        run: npx wait-on http://localhost:3001 -t 30000
+      #- name: Wait for application to be ready
+      #  run: npx wait-on http://localhost:3001 -t 30000
+
+      - name: wait for 30 seconds
+        run: sleep 30
         
       - name: Run tests
         run: npm test
