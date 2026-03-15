@@ -1,12 +1,14 @@
 const express = require('express')
 const errorHandler = require("./middleware/errorHandler");
 const { PORT } = require('./util/config')
-const { connectToDatabase } = require('./util/db')
+const { sequelize, connectToDatabase } = require('./util/db')
 const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 const authorsRouter = require('./controllers/authors')
 const resetRouter = require('./controllers/reset')
+
+require('./models')
 
 const app = express()
 app.use(express.json())
@@ -43,6 +45,9 @@ app.use(errorHandler)
 // Start the server after connecting to the database
 const start = async () => {
   await connectToDatabase()
+
+  await sequelize.sync()   // sync all models in correct order
+
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
