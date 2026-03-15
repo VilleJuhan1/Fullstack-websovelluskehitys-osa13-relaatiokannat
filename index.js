@@ -24,11 +24,17 @@ app.get('/', (req, res) => {
 })
 
 // Handle unknown endpoints
+app.use((req, res) => {
+  res.status(404).json({ error: 'unknown endpoint' })
+})
+
+/*
 app.use((req, res, next) => {
   const error = new Error('Unknown endpoint')
   error.status = 404
   next(error)
 })
+*/
 
 // Error handling middleware
 app.use(errorHandler)
