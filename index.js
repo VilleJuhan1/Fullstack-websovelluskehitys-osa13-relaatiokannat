@@ -31,14 +31,6 @@ app.use((req, res) => {
   res.status(404).json({ error: 'unknown endpoint' })
 })
 
-/*
-app.use((req, res, next) => {
-  const error = new Error('Unknown endpoint')
-  error.status = 404
-  next(error)
-})
-*/
-
 // Error handling middleware
 app.use(errorHandler)
 
@@ -46,7 +38,7 @@ app.use(errorHandler)
 const start = async () => {
   await connectToDatabase()
 
-  await sequelize.sync()   // sync all models in correct order
+  await sequelize.sync()   // Sync all models in correct order
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
