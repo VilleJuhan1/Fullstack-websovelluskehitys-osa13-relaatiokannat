@@ -25,9 +25,24 @@ User.init({
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        msg: 'Name must not be empty'
+      }
+    }
   },
-}, {
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        msg: 'Password must not be empty'
+      }
+    }
+  },
+},  
+  {
   sequelize,
   underscored: true,
   timestamps: true,
