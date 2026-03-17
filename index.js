@@ -38,7 +38,8 @@ app.use(errorHandler)
 const start = async () => {
   await connectToDatabase()
 
-  await sequelize.sync()   // Sync all models in correct order
+  // Handled via migrations, so no need to sync models here
+  // await sequelize.sync()   // Sync all models in correct order
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)

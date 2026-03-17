@@ -3,5 +3,6 @@ Content-Type: application/json
 
 {
   "username": "mattimeikalainen@hotmail.com",
-  "name": "Matti Meikäläinen"
+  "name": "Matti Meikäläinen",
+  "password": "secret"
 }
