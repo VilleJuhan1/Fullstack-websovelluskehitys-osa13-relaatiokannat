@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const { User, Blog } = require('../models')
+const { User, Blog, UserReadingList } = require('../models')
 
 router.get('/', async (req, res, next) => {
    try { 
@@ -27,7 +27,25 @@ router.post('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id)
+    const user = await User.findByPk(req.params.id, {
+      attributes: { exclude: ['password'] },
+      include: [
+        {
+          model: Blog,
+          as: 'blogs', // created by user
+          attributes: { exclude: ['user_id'] }
+        },
+        {
+          model: Blog,
+          as: 'readingList', // reading list
+          attributes: { exclude: ['user_id', 'createdAt', 'updatedAt'] },
+          through: {
+            attributes: ['blog_read']
+          }
+        }
+      ]
+    })
+
     if (user) {
       res.json(user)
     } else {
@@ -39,6 +57,36 @@ router.get('/:id', async (req, res, next) => {
     next(error)
   }
 })
+
+/*
+router.get('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id, {
+      attributes: { exclude: ['password'] },
+      include: [{
+        model: Blog,
+        attributes: { exclude: ['user_id', 'id'] }
+      },
+      {
+        model: UserReadingList,
+        attributes: { exclude: ['user_id', 'id'] },
+        through: {
+          attributes: []
+        }
+      }]
+    })
+    if (user) {
+      res.json(user)
+    } else {
+      const error = new Error('User not found')
+      error.status = 404
+      next(error)
+    }
+  } catch (error) { 
+    next(error)
+  }
+})
+*/
 
 // Update user information with new name
 router.put('/:id', async (req, res, next) => {
