@@ -40,8 +40,8 @@ Blog.init({
     allowNull: true,
     validate: {
       min: {
-        args: 1987,
-        msg: 'Year must be 1987 or later'
+        args: 1991,
+        msg: 'Year must be 1991 or later'
       },
       max: {
         args: new Date().getFullYear(),
