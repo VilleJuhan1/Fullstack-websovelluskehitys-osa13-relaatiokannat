@@ -51,7 +51,7 @@ router.get('/', async (req, res, next) => {
       where,
       include: {
         model: User,
-        attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+        attributes: { exclude: ['id', 'password', 'createdAt', 'updatedAt'] }
       },
       order: [['likes', 'DESC']] // Sort blogs by likes in descending order
     })

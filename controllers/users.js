@@ -40,7 +40,7 @@ router.get('/:id', async (req, res, next) => {
           as: 'readingList', // reading list
           attributes: { exclude: ['user_id', 'createdAt', 'updatedAt'] },
           through: {
-            attributes: ['blog_read']
+            attributes: ['blog_read', 'id'], // include blog_read and id from the through table§
           }
         }
       ]
