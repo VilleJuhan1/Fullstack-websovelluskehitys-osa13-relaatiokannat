@@ -27,36 +27,45 @@ router.post('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
+    const { read } = req.query;
+
+    // Add the where condition for the through table if the read query parameter is provided
+    const throughWhere = read !== undefined
+      ? { blog_read: read === 'true' }
+      : undefined;
+
     const user = await User.findByPk(req.params.id, {
       attributes: { exclude: ['password'] },
       include: [
         {
           model: Blog,
-          as: 'blogs', // created by user
+          as: 'blogs',
           attributes: { exclude: ['user_id'] }
         },
         {
           model: Blog,
-          as: 'readingList', // reading list
+          as: 'readingList',
           attributes: { exclude: ['user_id', 'createdAt', 'updatedAt'] },
           through: {
-            attributes: ['blog_read', 'id'], // include blog_read and id from the through table§
+            attributes: ['blog_read', 'id'],
+            // Only include the through table attributes if the read query parameter is provided
+            ...(throughWhere && { where: throughWhere })
           }
         }
       ]
-    })
+    });
 
     if (user) {
-      res.json(user)
+      res.json(user);
     } else {
-      const error = new Error('User not found')
-      error.status = 404
-      next(error)
+      const error = new Error('User not found');
+      error.status = 404;
+      next(error);
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 /*
 router.get('/:id', async (req, res, next) => {
