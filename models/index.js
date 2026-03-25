@@ -1,6 +1,7 @@
 const Blog = require('./blog')
 const User = require('./user')
 const UserReadingList = require('./userReadingList')
+const Session = require('./session')
 
 User.hasMany(Blog, { foreignKey: 'user_id' })
 Blog.belongsTo(User, { foreignKey: 'user_id' })
@@ -18,19 +19,12 @@ Blog.belongsToMany(User, {
   foreignKey: 'blog_id'
 })
 
-/*
-Blog.belongsToMany(User, { through: UserReadingList })
-User.belongsToMany(Blog, { through: UserReadingList })
-
-// Moved to index.js to ensure proper synchronization of models
-/*
-Create the Blog table using the model if it doesn't exist already
-User.sync({ alter: true })
-Blog.sync({ alter: true })
-*/
+Session.belongsTo(User, { foreignKey: 'user_id' })
+User.hasMany(Session, { foreignKey: 'user_id' })
 
 module.exports = {
   Blog,
   User,
-  UserReadingList
+  UserReadingList,
+  Session
 }
