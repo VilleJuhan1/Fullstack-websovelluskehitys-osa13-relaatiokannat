@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const { SECRET } = require('../util/config')
 const { Blog, User } = require('../models')
 const { Op } = require('sequelize')
+const sessionValidator = require('../util/sessionValidator')
 
 const blogFinder = async (req, res, next) => {
   try {
@@ -69,14 +70,15 @@ router.get('/:id', blogFinder, async (req, res) => {
   res.json(req.blog)
 })
 
-router.post('/', tokenExtractor, async (req, res, next) => {
+router.post('/', sessionValidator, async (req, res, next) => {
+// router.post('/', tokenExtractor, async (req, res, next) => {
   try {
     if (req.body.likes !== undefined || req.body.likes === null || req.body.likes < 0) {
       const error = new Error('Likes must be a non-negative number')
       error.status = 400
       return next(error)
     }
-    const user = await User.findByPk(req.decodedToken.id)
+    const user = await User.findByPk(req.user.id)
     const blog = await Blog.create({ ...req.body, user_id: user.id })
     res.json(blog)
   } catch (error) {

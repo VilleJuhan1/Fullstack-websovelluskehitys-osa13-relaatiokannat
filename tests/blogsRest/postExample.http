@@ -1,0 +1,9 @@
+POST http://localhost:3001/api/blogs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3NDQ1NjE3NX0.nknxgULkxq9nZs0tHLxFp6dwOZ3Ex8pbvnQwdsrtW6g
+Content-Type: application/json
+
+{
+  "author": "Fake John",
+  "url": "https://www.fakenews.com",
+  "title": "Only truth"
+}
