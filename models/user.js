@@ -41,6 +41,10 @@ User.init({
       }
     }
   },
+  has_access: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
+  }
 },  
   {
   sequelize,
