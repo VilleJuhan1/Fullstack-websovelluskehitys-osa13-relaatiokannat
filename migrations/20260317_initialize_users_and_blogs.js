@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 
+// Initials migration for creating the users and blogs tables
 module.exports = {
   up: async ({ context: queryInterface }) => {
     await queryInterface.createTable('users', {

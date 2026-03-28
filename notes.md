@@ -133,7 +133,7 @@ defaultdb=> select * from users
 ```
 
 ```shell
-# reset everything
+# reset everything in the DB (If need to rebuild the test database from scratch for some reason)
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 ```

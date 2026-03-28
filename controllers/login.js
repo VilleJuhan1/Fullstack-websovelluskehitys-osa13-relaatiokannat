@@ -4,7 +4,7 @@ const { SECRET } = require('../util/config')
 const User = require('../models/user')
 const Session = require('../models/session')
 
-// Login
+// Login router for creating a user session
 router.post('/', async (request, response) => {
   const body = request.body
 
@@ -22,8 +22,8 @@ router.post('/', async (request, response) => {
     })
   }
 
+  // Encrypting and handling hashed passwords is yet to be implemented
   const passwordCorrect = body.password === user?.password
-  // const passwordCorrect = body.password === 'secret'
 
   if (!(user && passwordCorrect)) {
     return response.status(401).json({

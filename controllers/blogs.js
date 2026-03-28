@@ -5,6 +5,7 @@ const { Blog, User } = require('../models')
 const { Op } = require('sequelize')
 const sessionValidator = require('../util/sessionValidator')
 
+// Used by routes to find the correct blog for each operation
 const blogFinder = async (req, res, next) => {
   try {
     const blog = await Blog.findByPk(req.params.id)
@@ -22,6 +23,7 @@ const blogFinder = async (req, res, next) => {
   }
 }
 
+// Old tokenExtractor that could be replaced with sessionValidator used elsewhere in the app
 const tokenExtractor = (req, res, next) => {
   const authorization = req.get('authorization')
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
@@ -36,6 +38,7 @@ const tokenExtractor = (req, res, next) => {
   next()
 }
 
+// Returns all blogs
 router.get('/', async (req, res, next) => {
   const where = {}
 
@@ -57,21 +60,20 @@ router.get('/', async (req, res, next) => {
       order: [['likes', 'DESC']] // Sort blogs by likes in descending order
     })
     console.log(JSON.stringify(blogs, null, 2))
-    // Sort blogs by likes in descending order before sending the response (Use sequelize instead)
-    // res.json(blogs.sort((a, b) => b.likes - a.likes))
     res.json(blogs)
   } catch (error) {
     next(error)
   }
 })
 
+// Returns a single blog
 router.get('/:id', blogFinder, async (req, res) => {
   console.log('Received blog:', req.blog.toJSON())
   res.json(req.blog)
 })
 
+// Add a blog, verify the session and current user with sessionValidator
 router.post('/', sessionValidator, async (req, res, next) => {
-// router.post('/', tokenExtractor, async (req, res, next) => {
   try {
     if (req.body.likes !== undefined || req.body.likes === null || req.body.likes < 0) {
       const error = new Error('Likes must be a non-negative number')
@@ -107,6 +109,7 @@ router.put('/:id', blogFinder, async (req, res, next) => {
   }
 })
 
+// Delete a blog
 router.delete('/:id', blogFinder, tokenExtractor, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.decodedToken.id)

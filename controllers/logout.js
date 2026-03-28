@@ -2,6 +2,7 @@ const router = require('express').Router()
 const { Session } = require('../models')
 const sessionValidator = require('../util/sessionValidator')
 
+// Handles logout by deleting all sessions with the current user token
 router.delete('/', sessionValidator, async (req, res, next) => {
   try {
     

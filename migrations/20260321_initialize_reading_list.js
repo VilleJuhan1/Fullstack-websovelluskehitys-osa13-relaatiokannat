@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 
+// Initializes reading lists that users can add blogs to
 module.exports = {
   up: async ({ context: queryInterface }) => {
     await queryInterface.createTable('reading_list', {

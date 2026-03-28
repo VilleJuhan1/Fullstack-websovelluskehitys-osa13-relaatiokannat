@@ -4,6 +4,7 @@ const { sequelize } = require('../util/db')
 
 class UserReadingList extends Model {}
 
+// The model for reading_list table that contains the blogs user has added to their reading list
 UserReadingList.init({
   id: {
     type: DataTypes.INTEGER,
@@ -37,7 +38,7 @@ UserReadingList.init({
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'reading_list', // previously 'user_reading_list' --- IGNORE ---
+  modelName: 'reading_list',
   tableName: 'reading_list',
   freezeTableName: true
 })

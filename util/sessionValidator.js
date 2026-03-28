@@ -1,7 +1,8 @@
 const { SECRET } = require('../util/config')
 const jwt = require('jsonwebtoken')
-const { Session, User } = require('../models')
+const { Session } = require('../models')
 
+// Validates the session for further operations, passes on the user and token
 const sessionValidator = async (req, res, next) => {
   const authorization = req.get('authorization')
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {

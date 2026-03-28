@@ -2,16 +2,6 @@ const { Model, DataTypes } = require('sequelize')
 
 const { sequelize } = require('../util/db')
 
-/*
- Column |  Type   | Collation | Nullable |              Default              
---------+---------+-----------+----------+-----------------------------------
- id     | integer |           | not null | nextval('blogs_id_seq'::regclass)
- author | text    |           |          | 
- url    | text    |           | not null | 
- title  | text    |           | not null | 
- likes  | integer |           |          | 0
-*/
-
 class Blog extends Model {}
 Blog.init({
   id: {

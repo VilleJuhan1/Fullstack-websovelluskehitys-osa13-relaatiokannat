@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 
+// Migration initializes the sessions table for keeping track of active user sessions (via logins)
 module.exports = {
   up: async ({ context: queryInterface }) => {
     await queryInterface.createTable('sessions', {
@@ -11,10 +12,6 @@ module.exports = {
       user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        /*references: {
-          model: 'users',
-          key: 'id'
-        },*/
         onDelete: 'CASCADE'
       },
       token: {
@@ -25,10 +22,6 @@ module.exports = {
       has_access: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
-        /*references: {
-          model: 'users',
-          key: 'id'
-        },*/
         onDelete: 'CASCADE'
       },
       created_at: {

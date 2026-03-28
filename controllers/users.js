@@ -1,7 +1,8 @@
 const router = require('express').Router()
 
-const { User, Blog, UserReadingList } = require('../models')
+const { User, Blog } = require('../models')
 
+// Get all users
 router.get('/', async (req, res, next) => {
    try { 
     const users = await User.findAll( {
@@ -25,6 +26,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+// Individual user route
 router.get('/:id', async (req, res, next) => {
   try {
     const { read } = req.query;
@@ -67,37 +69,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-/*
-router.get('/:id', async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.params.id, {
-      attributes: { exclude: ['password'] },
-      include: [{
-        model: Blog,
-        attributes: { exclude: ['user_id', 'id'] }
-      },
-      {
-        model: UserReadingList,
-        attributes: { exclude: ['user_id', 'id'] },
-        through: {
-          attributes: []
-        }
-      }]
-    })
-    if (user) {
-      res.json(user)
-    } else {
-      const error = new Error('User not found')
-      error.status = 404
-      next(error)
-    }
-  } catch (error) { 
-    next(error)
-  }
-})
-*/
-
-// Update user information with new name
+// Update user information with a new name
 router.put('/:id', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.username)

@@ -1,7 +1,7 @@
 const express = require('express')
 const errorHandler = require("./middleware/errorHandler");
 const { PORT } = require('./util/config')
-const { sequelize, connectToDatabase } = require('./util/db')
+const { connectToDatabase } = require('./util/db')
 const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
