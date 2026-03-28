@@ -131,3 +131,9 @@ defaultdb=> select * from users
   1 | Johndoe  | John Doe | 2026-03-11 15:38:25.124+00 | 2026-03-11 15:38:25.124+00
 (1 row)
 ```
+
+```shell
+# reset everything
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+```

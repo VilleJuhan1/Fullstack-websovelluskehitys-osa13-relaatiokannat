@@ -55,12 +55,39 @@ router.post('/', async (req, res, next) => {
       error.status = 400
       return next(error)
     }
-
-    await user.addReadingList(blog, {
+/*
+    const data = await user.addReadingList(blog, {
       through: { blog_read: false } // optional default
     })
 
-    res.status(201).json({ message: 'Blog added to reading list' })
+    console.debug('Added blog to reading list:', data)
+    res.status(201).json({ data, message: 'Blog added to reading list' })
+
+    const result = await user.addReadingList(blog, {
+      through: { blog_read: false }
+    })
+
+    const readingEntry = result[0].get() // or .toJSON()
+
+    console.log('Added blog to reading list:', readingEntry)
+
+    res.status(201).json({
+      data: readingEntry,
+      message: 'Blog added to reading list'
+    })
+*/
+    const [entry] = await user.addReadingList(blog, {
+      through: { blog_read: false }
+    })
+
+    console.log('Added blog to reading list:', entry.toJSON())
+
+    const data = entry.toJSON()
+
+    res.status(201).json({
+      ...data,
+      read: data.blog_read // ✅ map to what test expects
+    })
   } catch (error) {
     next(error)
   }

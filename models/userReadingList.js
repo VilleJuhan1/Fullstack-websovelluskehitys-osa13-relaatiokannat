@@ -37,7 +37,7 @@ UserReadingList.init({
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'user_reading_list',
+  modelName: 'user_reading_list', // previously 'user_reading_list' --- IGNORE ---
   tableName: 'user_reading_list',
   freezeTableName: true
 })

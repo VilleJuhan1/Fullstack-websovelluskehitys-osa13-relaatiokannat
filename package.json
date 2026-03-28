@@ -16,6 +16,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node --test --test-concurrency=1 tests/api_ch3.test.js",
+    "test2": "node --test --test-concurrency=1 tests/api_ch4.test.js",
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
