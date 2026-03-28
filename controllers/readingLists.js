@@ -1,8 +1,9 @@
 const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 const { SECRET } = require('../util/config')
-const { Blog, User } = require('../models')
+const { Blog, User, UserReadingList } = require('../models')
 const { Op } = require('sequelize')
+const sessionValidator = require('../util/sessionValidator')
 
 const tokenExtractor = (req, res, next) => {
   const authorization = req.get('authorization')
@@ -93,12 +94,55 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/:id', tokenExtractor, async (req, res, next) => {
-  const { id } = req.params
-  const { blog_read } = req.body
+router.put('/:id', sessionValidator, async (req, res, next) => {
+  console.log('Reading list put operation validated with:',req.user, req.token)
+  try {
+    const { read } = req.body
+    const { id } = req.params
 
-  if (blog_read === undefined) {
-    const error = new Error('blog_read field required')
+    if (typeof read !== 'boolean') {
+      const error = new Error('Read must be a boolean value')
+      error.status = 400
+      return next(error)
+    }
+
+    // ✅ find entry
+    const entry = await UserReadingList.findByPk(id)
+    console.log('Entry to be changed:', entry)
+
+    if (!entry) {
+      const error = new Error('Reading list entry not found')
+      error.status = 404
+      return next(error)
+    }
+
+    // ✅ authorization check
+    if (entry.user_id !== req.user.id) {
+      const error = new Error('Not authorized to modify this entry')
+      error.status = 401
+      return next(error)
+    }
+
+    // ✅ update
+    entry.read = read
+    await entry.save()
+
+    // ✅ match test expectations
+    res.json({
+      ...entry.toJSON()
+    })    
+
+  } catch (error) {
+    next(error)
+  }
+})  
+  /*
+  const { id } = req.params
+  const { read } = req.body
+
+  console.log('Updating reading list entry:', { id, read })
+  if (read === undefined) {
+    const error = new Error('read field required')
     error.status = 400
     return next(error)
   }
@@ -130,7 +174,7 @@ router.put('/:id', tokenExtractor, async (req, res, next) => {
     next(error)
   }
 })
-
+*/
 /*
 router.post('/', async (req, res, next) => {
     // console.log('Received request to add blog to reading list:', req)
