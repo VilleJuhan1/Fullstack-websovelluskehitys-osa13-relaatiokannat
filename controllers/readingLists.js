@@ -49,7 +49,7 @@ router.post('/', async (req, res, next) => {
     }
 
     // ✅ use correct association
-    const exists = await user.hasReadingList(blog)
+    const exists = await user.hasReadings(blog)
     if (exists) {
       const error = new Error('Blog already in reading list')
       error.status = 400
@@ -76,7 +76,7 @@ router.post('/', async (req, res, next) => {
       message: 'Blog added to reading list'
     })
 */
-    const [entry] = await user.addReadingList(blog, {
+    const [entry] = await user.addReadings(blog, {
       through: { blog_read: false }
     })
 
@@ -114,14 +114,14 @@ router.put('/:id', tokenExtractor, async (req, res, next) => {
     }
 
     // Check if blog exists in user's reading list
-    const exists = await user.hasReadingList(blog)
+    const exists = await user.hasReadings(blog)
     if (!exists) {
       const error = new Error('Blog not in reading list')
       error.status = 400
       return next(error)
     }
 
-    await user.addReadingList(blog, {
+    await user.addReadings(blog, {
       through: { blog_read }
     })
 

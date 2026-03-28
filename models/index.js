@@ -8,7 +8,7 @@ Blog.belongsTo(User, { foreignKey: 'user_id' })
 
 // Reading list (many-to-many)
 User.belongsToMany(Blog, {
-  as: 'readingList',
+  as: 'readings',
   through: UserReadingList,
   foreignKey: 'user_id'
 })
