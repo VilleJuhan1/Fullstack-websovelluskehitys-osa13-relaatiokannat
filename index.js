@@ -8,6 +8,7 @@ const loginRouter = require('./controllers/login')
 const authorsRouter = require('./controllers/authors')
 const resetRouter = require('./controllers/reset')
 const readingListsRouter = require('./controllers/readingLists')
+const logoutRouter = require('./controllers/logout')
 
 require('./models')
 
@@ -21,6 +22,7 @@ app.use('/api/login', loginRouter)
 app.use('/api/authors', authorsRouter)
 app.use('/api/reset', resetRouter)
 app.use('/api/readinglists', readingListsRouter)
+app.use('/api/logout', logoutRouter)
 
 
 // Basic route to check if the server is running

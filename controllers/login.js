@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken')
 const router = require('express').Router()
-
 const { SECRET } = require('../util/config')
 const User = require('../models/user')
 const Session = require('../models/session')
 
+// Login
 router.post('/', async (request, response) => {
   const body = request.body
 

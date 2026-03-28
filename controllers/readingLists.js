@@ -106,7 +106,6 @@ router.put('/:id', sessionValidator, async (req, res, next) => {
       return next(error)
     }
 
-    // ✅ find entry
     const entry = await UserReadingList.findByPk(id)
     console.log('Entry to be changed:', entry)
 
@@ -116,18 +115,15 @@ router.put('/:id', sessionValidator, async (req, res, next) => {
       return next(error)
     }
 
-    // ✅ authorization check
     if (entry.user_id !== req.user.id) {
       const error = new Error('Not authorized to modify this entry')
       error.status = 401
       return next(error)
     }
 
-    // ✅ update
     entry.read = read
     await entry.save()
 
-    // ✅ match test expectations
     res.json({
       ...entry.toJSON()
     })    
