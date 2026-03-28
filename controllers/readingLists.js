@@ -85,8 +85,8 @@ router.post('/', async (req, res, next) => {
     const data = entry.toJSON()
 
     res.status(201).json({
-      ...data,
-      read: data.blog_read // ✅ map to what test expects
+      ...data
+      //read: data.blog_read // ✅ map to what test expects
     })
   } catch (error) {
     next(error)
@@ -122,7 +122,7 @@ router.put('/:id', tokenExtractor, async (req, res, next) => {
     }
 
     await user.addReadings(blog, {
-      through: { blog_read }
+      through: { read }
     })
 
     res.json({ message: 'Reading status updated' })

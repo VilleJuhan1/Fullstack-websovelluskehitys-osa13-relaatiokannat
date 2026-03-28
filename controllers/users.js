@@ -31,7 +31,7 @@ router.get('/:id', async (req, res, next) => {
 
     // Add the where condition for the through table if the read query parameter is provided
     const throughWhere = read !== undefined
-      ? { blog_read: read === 'true' }
+      ? { read: read === 'true' }
       : undefined;
 
     const user = await User.findByPk(req.params.id, {
@@ -47,7 +47,7 @@ router.get('/:id', async (req, res, next) => {
           as: 'readings',
           attributes: { exclude: ['user_id', 'createdAt', 'updatedAt'] },
           through: {
-            attributes: ['blog_read', 'id'],
+            attributes: ['read', 'id'],
             // Only include the through table attributes if the read query parameter is provided
             ...(throughWhere && { where: throughWhere })
           }

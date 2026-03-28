@@ -28,7 +28,7 @@ UserReadingList.init({
     },
     onDelete: 'CASCADE'
   },
-  blog_read: {
+  read: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   }
@@ -37,8 +37,8 @@ UserReadingList.init({
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'user_reading_list', // previously 'user_reading_list' --- IGNORE ---
-  tableName: 'user_reading_list',
+  modelName: 'reading_list', // previously 'user_reading_list' --- IGNORE ---
+  tableName: 'reading_list',
   freezeTableName: true
 })
 
