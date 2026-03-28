@@ -20,3 +20,22 @@ This repository answers to exercises present in the current iteration (28.3.2026
 - Automated testing (via course material)
 - Etc.
 
+## Installation
+
+First, create an .env file in the project root with the following key-value pairs:
+
+```
+DATABASE_URL=
+SECRET=
+PORT=
+```
+
+Database url is used to connect to your postgresql database. Secret is the hash key for tokens (any string). Port is used if needed to use something else besides the default port 3001.
+
+Then in the project root:
+
+```shell
+npm install
+npm run dev # run the app in development mode
+npm run test # run tests
+```
